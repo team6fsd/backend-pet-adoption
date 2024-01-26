@@ -2,6 +2,7 @@ import Animal from "../models/AnimalModel.js";
 import User from "../models/UserModel.js";
 import path from "path";
 import fs from "fs";
+
 // Get all animals with status 'publish'
 export const getAnimal = async (req, res) => {
   try {
@@ -110,19 +111,22 @@ export const updateAnimal = async (req, res) => {
       id: req.params.id,
     },
   });
+
   if (!animal) return res.status(404).json({ msg: "data not found" });
-  let fileName = "";
-  if (req.files === null) {
-  } else {
+
+  let fileName = animal.image;
+
+  if (req.files !== null) {
     const file = req.files.file;
     const fileSize = file.data.length;
     const ext = path.extname(file.name);
     fileName = file.md5 + ext;
+
     const allowedType = [".png", ".jpg", ".jpeg", ".webp"];
     if (!allowedType.includes(ext.toLowerCase())) return res.status(422).json({ msg: "File Tidak didukung" });
     if (fileSize > 5000000) return res.status(422).json({ msg: "image terlalu besar maxsimal 5 MB" });
 
-    const filePath = `./public/images/${Animal.image}`;
+    const filePath = `./public/images/${animal.image}`;
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }
@@ -131,6 +135,7 @@ export const updateAnimal = async (req, res) => {
       if (err) return res.status(500).json({ msg: err.message });
     });
   }
+
   const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
 
   try {
@@ -157,6 +162,7 @@ export const updateAnimal = async (req, res) => {
     res.status(200).json({ msg: "Animal Updated" });
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 
