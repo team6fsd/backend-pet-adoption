@@ -1,27 +1,48 @@
 ## API Backend
 
-### Admin
-
-#### Login Admin
+## Login Admin
 
 ### POST http://localhost:5000/login
 
-Login dengan method post
+Login admin dengan method POST, dengan note: ketika server dijalankan, harus di reload kembali untuk generate email dan password admin secara otomatis
 
-### GET http://localhost:5000/admin
+## Users
 
-Mendapatkan semua data admin
+### GET http://localhost:5000/users
 
-### POST http://localhost:5000/admin
+Mendapatkan semua data users dengan method GET
 
-Menambahkan data admin dengan method post
+### POST http://localhost:5000/register
+
+Registrasi user dengan menggunakan method POST
 
 Content-Type: application/json
 
         {
-            "username": "administrator",
+            "name": "Nanda",
+            "email": "nanda@gmail.com",
+            "password": "12345678",
+            "confPassword": "12345678"
+        }
+
+### POST http://localhost:5000/login
+
+User login menggunakan method login
+
+Content-Type: application/json
+
+        {
+            "email": "nanda@gmail.com",
             "password": "12345678"
         }
+
+### GET http://localhost:5000/users/:id
+
+Mendapatkan user detail berdasarkan id menggunakan method GET
+
+### DELETE http://localhost:5000/users/:id
+
+Menghapus user berdasarkan id menggunakan method DELETE
 
 ## Animal
 
@@ -31,7 +52,7 @@ mendapatkan semua data animal dengan method get
 
 ### GET http://localhost:5000/animal/proses
 
-mendapatkan data yang berstatus proses
+mendapatkan data animal yang berstatus proses
 
 ### GET http://localhost:5000/animal/approve
 
@@ -39,21 +60,7 @@ mendapatkan data yang berstatus approve
 
 ### POST http://localhost:5000/animal
 
-menambah data animal dengan method post
-
-contoh field :
-
-        Content-Type: application/json
-
-        {
-            "name": "Maive",
-            "breed": "Maine",
-            "sex": "Male",
-            "age": "5",
-            "color": "Hitam, kuning",
-            "description": "Kucing indah pemberani yang indah dan menawan yang perlu dikasih sayangi ",
-            "status_adoption": "publish"
-        }
+Menambah data animal dengan method post
 
 ### PATCH http://localhost:5000/animal/publish/:id
 
